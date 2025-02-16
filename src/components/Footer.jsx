@@ -1,7 +1,7 @@
 const Footer = () => {
   return (
     <footer className = "bg-dark text-light">
-        <p className = "footerP p-4">
+        <p className = "footerP">
         © 2021 - Pizzería Mamma Mia! - Todos los derechos reservados
         </p>
     </footer>

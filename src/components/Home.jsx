@@ -1,10 +1,30 @@
 import Header from './Header'
 import Card from './Card'
- 
+import {pizzas} from "./pizzas" 
+
 const Home = () => {
   return (    
     <>
     <Header />
+      <main className="CardsContainer">
+        <div className="row"> 
+            {pizzas.map ((pizzas)=> (
+              <Card 
+                className="card"
+                key = {pizzas.id}
+                img = {pizzas.img}
+                name = {pizzas.name}
+                desc = {pizzas.desc}
+                ingredients = {pizzas.ingredients}
+                price = {pizzas.price}
+                >
+            </Card>
+            ))}
+        </div>
+      </main>
+   
+    {/*HITO 1 REQUERIMIENTOS DEL CARD
+    
     <main className="container">
       <div className="cards-container">
       
@@ -33,9 +53,7 @@ const Home = () => {
         ingredients={["Ingredientes: mozzarella,", "pepperoni,", "orégano"]}
         img={'https://i0.wp.com/picjumbo.com/wp-content/uploads/pizza-salami-vertical.jpg?w=600&quality=80'}
         />
-      </div>
-      
-        </main>
+      </div>*/}
   </>
   )
 }
