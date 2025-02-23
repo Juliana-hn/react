@@ -1,11 +1,65 @@
 import Header from './Header'
 import Card from './Card'
-import {pizzas} from "./pizzas" 
+// import {pizzas} from "./pizzas" 
+import React, { useEffect } from 'react'
+import { useState } from 'react'
 
 const Home = () => {
+
+  const [pizzas, setPizzas] = useState([])
+    const getPizzas = async () =>{
+        try{
+            //petición al API
+            const response = await fetch ('http://localhost:5000/api/pizzas')
+            if (!response.ok){
+                throw new Error (`HTTP ERROR! Status: ${response.status} `)
+            }
+            const data = await response.json();
+            setPizzas(data)
+        }
+        catch (error) {};
+    }
+
+    useEffect(() =>{
+        getPizzas();
+    }, [])
   return (    
     <>
     <Header />
+    <div className='container mt-4'>
+        <div className='row row-cols-1 row-cols-md-2 row-cols-lg-3 g-3'>
+            {pizzas.map((pizza)=> (
+                <div className='col-12 col-md-4 mb-4' key={pizza.id}>
+                    <div className='card h-100 border-0'>
+                        <img 
+                        src={pizza.img} 
+                        className="card-img-top img-fluid rounded-top"
+                        alt={pizza.name} />
+
+                        <div className='card-body'>
+                            <h5 className="card-title font-weight-bold">{pizza.name}</h5>
+                            <p className='card-text'>Descripción: {pizza.desc}</p>
+                            <p className='card-text'>
+                            Precio: <strong>${pizza.price}</strong>
+                            </p>
+                            <ul className="list-unstyled mb-0 mt-3 text-muted">
+                                {pizza.ingredients.map((ingredient, index) => (
+                                    <li key={index} className="card-text">{ingredient}</li>
+                                ))}
+                            </ul>
+                            <button className="btn btn-dark btn-md mt-3 w-100">Añadir</button>
+                        </div>  
+                    </div>
+                </div>
+        ))}
+        </div>   
+    </div> 
+      
+    </> 
+    )}
+
+    {/* HITO 2 USANDO import {pizzas} from "./pizzas"
+      
       <main className="CardsContainer">
         <div className="row"> 
             {pizzas.map ((pizzas)=> (
@@ -23,7 +77,7 @@ const Home = () => {
         </div>
       </main>
    
-    {/*HITO 1 REQUERIMIENTOS DEL CARD
+    HITO 1 REQUERIMIENTOS DEL CARD
     
     <main className="container">
       <div className="cards-container">
@@ -54,8 +108,4 @@ const Home = () => {
         img={'https://i0.wp.com/picjumbo.com/wp-content/uploads/pizza-salami-vertical.jpg?w=600&quality=80'}
         />
       </div>*/}
-  </>
-  )
-}
-
 export default Home
