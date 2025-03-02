@@ -1,29 +1,34 @@
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
+import { Link } from 'react-router-dom';
 
 function ColorSchemesExample() {
   const total = 25000;
   const token = false;
   return (
     <>
-      <Navbar bg="light" data-bs-theme="light">
+      <Navbar bg="light" data-bs-theme="light" className="shadow-sm mb-4">
         <Container>
           <Nav className="me-auto">
-            <Nav.Link href="#home">🍕Home</Nav.Link>
+          <Nav.Link as= {Link} to='/'> 🍕Home </Nav.Link>
+            {/*DEJO AMBAS ALTERNATIVAS:
+            <Link to="/" className="nav-link text-dark px-3 py-2 rounded hover-effect">🍕Home</Link>*/}
             {token ? (
               <>
-            <Nav.Link href="#profiles">🔓Profile</Nav.Link>
-            <Nav.Link href="#logout">🔒Logout</Nav.Link>
-            </>) : (
+                <Link to="/profiles" className="nav-link text-dark px-3 py-2 rounded hover-effect">🔓Profile</Link>
+                <Link to="/logout" className="nav-link text-dark px-3 py-2 rounded hover-effect">🔒Logout</Link>
+              </>
+            ) : (
               <>
-            <Nav.Link href="#login">🔐Login</Nav.Link>
-            <Nav.Link href="#register">🔐Register</Nav.Link>
-            </>) }
+                <Link to="/login" className="nav-link text-dark px-3 py-2 rounded hover-effect">🔐Login</Link>
+                <Link to="/register" className="nav-link text-dark px-3 py-2 rounded hover-effect">🔐Register</Link>
+              </>
+            )}
 
-            <Nav.Link href="#pricing" className="total">🛒Total</Nav.Link>
-            
-            {token && <Nav.Link href="#token" className="token">✅ Token Activo</Nav.Link>}
+            <Link to="/cart" className="nav-link text-dark px-3 py-2 rounded hover-effect total">🛒Total</Link>
+
+            {token && <Nav.Link href="#token" className="nav-link text-success px-3 py-2 rounded token">✅ Token Activo</Nav.Link>}
           </Nav>
         </Container>
       </Navbar>
