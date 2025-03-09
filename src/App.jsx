@@ -2,11 +2,13 @@ import {BrowserRouter, Routes, Route } from 'react-router-dom'
 import React from 'react'
 import {NotFound, Pizza, Register, Login, Home, Cart} from './pages/pagesindex'
 import {Card, Footer, Header, Navbar, Profile} from './components/index'
+import CartProvider from './context/CartContext'
 
 const App = () => {
   return (
     <>
     <BrowserRouter>
+    <CartProvider>
     <Navbar />
     <Routes>
       <Route path='/' element={<Home />}></Route>
@@ -18,10 +20,10 @@ const App = () => {
       <Route path='*' element={<NotFound />}></Route>
     </Routes>
     <Footer />
+    </CartProvider>
     </BrowserRouter>
     </>
   )
 }
-
 
 export default App

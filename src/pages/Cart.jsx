@@ -1,10 +1,12 @@
-import { useState } from "react"
+import React, { useContext } from "react"
+import { CartContext } from "../context/CartContext"
 import { pizzaCart } from "../components/pizzas";
 
-const Cart = () => {
+{/*Hito anterior, otra forma de añadir/eliminar pizzas desde el cart:
+    const Cart = () => {
     const [cart, setCart] = useState(pizzaCart.map(item => ({ ...item, count: 0 })));
-
-const incrementarCantidad = (id) => {
+    
+    const incrementarCantidad = (id) => {
     setCart(cart.map(item => 
         item.id === id ? { ...item, count: item.count + 1 } : item
     ));
@@ -18,7 +20,10 @@ const disminuirCantidad = (id) => {
 
 const Total = () => {
     return cart.reduce((total, item) => total + item.price * item.count, 0);
-}
+}*/}
+
+const Cart = () => {
+        const { cart, increment, decrement, totalPrice } = useContext(CartContext);
 
 return(
     <div className="cartcontainer mt-5">
@@ -42,13 +47,13 @@ return(
                         <div className="cartButtons">
                             <button 
                                 className="btn btn-outline-danger"
-                                onClick={() => disminuirCantidad(item.id)}> 
+                                onClick={() => decrement(item.id)}> 
                                 -
                             </button>
                             <span>  {item.count}  </span>
                             <button 
                                 className="btn btn-outline-success"
-                                onClick={() => incrementarCantidad(item.id)}>
+                                onClick={() => increment(item.id)}>
                                 +
                             </button>
                         </div>
@@ -58,7 +63,7 @@ return(
         </div>
 ))}
  <div className="text-end mt-4">
- <h3>Total: { Total ()} </h3>
+ <h3>Total: ${totalPrice.toLocaleString()} </h3>
  <button className="btn btn-outline-success mb-5">Pagar</button>
  </div>
  </div>

@@ -1,12 +1,13 @@
 import Header from "../components/Header";
 import Card from '../components/Card';
 // import {pizzas} from "./pizzas" 
-import React, { useEffect } from 'react'
-import { useState } from 'react'
+import React, { useEffect, useState, useContext } from 'react'
+import { CartContext } from "../context/CartContext";
 
 const Home = () => {
 
   const [pizzas, setPizzas] = useState([])
+  const { aumentar } = useContext(CartContext);
     const getPizzas = async () =>{
         try{
             //petición al API
@@ -23,6 +24,16 @@ const Home = () => {
     useEffect(() =>{
         getPizzas();
     }, [])
+
+    const handleAddToCart = (pizza) => {
+      aumentar({ 
+        id: pizza.id, 
+        img: pizza.img, 
+        name: pizza.name, 
+        price: pizza.price 
+      });
+    };
+  
   return (    
     <>
     <Header />
@@ -47,16 +58,18 @@ const Home = () => {
                                     <li key={index} className="card-text">{ingredient}</li>
                                 ))}
                             </ul>
-                            <button className="btn btn-dark btn-md mt-3 w-100">Añadir</button>
+                            <button className="btn btn-dark btn-md mt-3 w-100"
+                              onClick={() => handleAddToCart(pizza)} // Llamamos a la función handleAddToCart
+                            >Añadir</button>
                         </div>  
                     </div>
                 </div>
         ))}
         </div>   
     </div> 
-      
     </> 
     )}
+    export default Home
 
     {/* HITO 2 USANDO import {pizzas} from "./pizzas"
       
@@ -108,4 +121,4 @@ const Home = () => {
         img={'https://i0.wp.com/picjumbo.com/wp-content/uploads/pizza-salami-vertical.jpg?w=600&quality=80'}
         />
       </div>*/}
-export default Home
+
