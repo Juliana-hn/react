@@ -2,6 +2,7 @@ import Header from "../components/Header";
 import Card from '../components/Card';
 // import {pizzas} from "./pizzas" 
 import React, { useEffect, useState, useContext } from 'react'
+import { Link } from 'react-router-dom';
 import { CartContext } from "../context/CartContext";
 
 const Home = () => {
@@ -18,7 +19,7 @@ const Home = () => {
             const data = await response.json();
             setPizzas(data)
         }
-        catch (error) {};
+        catch (error) {console.error(error);}
     }
 
     useEffect(() =>{
@@ -58,9 +59,20 @@ const Home = () => {
                                     <li key={index} className="card-text">{ingredient}</li>
                                 ))}
                             </ul>
-                            <button className="btn btn-dark btn-md mt-3 w-100"
-                              onClick={() => handleAddToCart(pizza)} // Llamamos a la función handleAddToCart
-                            >Añadir</button>
+                            <div className="d-flex flex-column">
+                              <button
+                                className="btn btn-success tn-dark btn-md mt-3 w-100"
+                                onClick={() => handleAddToCart(pizza)} // Llamamos a la función handleAddToCart
+                              >
+                                Añadir
+                              </button>
+                              <Link
+                                to={`/pizza/${pizza.id}`}
+                                className="btn btn-secondary btn-dark btn-md mt-3 w-100"
+                              >
+                                Ver más
+                              </Link>
+                            </div>
                         </div>  
                     </div>
                 </div>

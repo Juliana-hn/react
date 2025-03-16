@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from 'react'
+import { Link, useParams } from "react-router-dom";
 
 const Pizza = () => {
+    const { id } = useParams();
     const [pizza, setPizza] = useState(null)
     const [loading, setLoading] = useState(true);
+
     const getPizza = async () => {
         try {
-            const response = await fetch('http://localhost:5000/api/pizzas/p001');
+            const response = await fetch(`http://localhost:5000/api/pizzas/${id}`);
             if (!response.ok) {
                 throw new Error(`HTTP ERROR! Status: ${response.status}`);
             }
@@ -20,7 +23,7 @@ const Pizza = () => {
 
     useEffect(() =>{
         getPizza();
-    }, [])
+    }, [id])
     if (loading) {
         return <p className="text-center mt-4">Cargando pizza...</p>;
     }
@@ -28,8 +31,6 @@ const Pizza = () => {
     if (!pizza) {
         return <p className="text-center mt-4">No se pudo cargar la pizza.</p>;
     }
-
-
     return (
         <div className="container mt-4">
             <div className="row justify-content-center">
@@ -51,7 +52,12 @@ const Pizza = () => {
                                     <li key={index} className="card-text">{ingredient}</li>
                                 ))}
                             </ul>
-                            <button className="btn btn-dark btn-md mt-3 w-100">Añadir</button>
+                            <div className="d-flex flex-column">
+                                <button className="btn btn-dark btn-md mt-3">Añadir</button>
+                                <Link to={`/pizza/${pizza.id}`} className="btn btn-dark btn-md mt-3">
+                                Ver más
+                                </Link>
+                            </div>
                         </div>
                     </div>
                 </div>

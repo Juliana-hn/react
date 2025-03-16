@@ -37,7 +37,7 @@ const Register = () => {
 
     return (
         <div className="container mt-4">
-            <h2>Registro</h2> <hr />
+            <h2>Register</h2> <hr />
             <Toaster position="top-center" richColors expand={true}/>
             <Form onSubmit={handleSubmit}>
                 <Form.Floating className="mb-3">

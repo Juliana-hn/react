@@ -1,9 +1,8 @@
 import { useContext, useMemo } from "react";
-import Container from 'react-bootstrap/Container';
-import Nav from 'react-bootstrap/Nav';
-import Navbar from 'react-bootstrap/Navbar';
-import { Link } from 'react-router-dom';
+import { Container, Nav, Navbar } from 'react-bootstrap';
+import { NavLink, useNavigate } from 'react-router-dom';
 import { CartContext } from '../context/CartContext';
+import { UserContext } from "../context/UserContext";
 
 function ColorSchemesExample() {
   const { cart } = useContext(CartContext);
@@ -11,32 +10,36 @@ function ColorSchemesExample() {
     () => cart.reduce((total, producto) => total + producto.price * producto.count, 0),
     [cart]
   );
-  const token = false;
+  
+  // HITO 7 RUTAS
+  const { user, logout } = useContext(UserContext) 
+  const navigate = useNavigate();
+  const cerrarsesion = () => {
+    logout() ;
+    navigate ("/")
+  } 
+  const validateRoot = ({isActive}) => (isActive ? 'active nav-link':'nav-link')
+
   return (
     <>
       <Navbar bg="light" data-bs-theme="light" className="shadow-sm mb-4">
         <Container>
           <Nav className="me-auto">
-          <Nav.Link as= {Link} to='/'> 🍕Home </Nav.Link>
-            {/*DEJO AMBAS ALTERNATIVAS:
-            <Link to="/" className="nav-link text-dark px-3 py-2 rounded hover-effect">🍕Home</Link>*/}
-            {token ? (
-              <>
-                <Link to="/profile" className="nav-link text-dark px-3 py-2 rounded hover-effect">🔓Profile</Link>
-                <Link to="/logout" className="nav-link text-dark px-3 py-2 rounded hover-effect">🔒Logout</Link>
-              </>
-            ) : (
-              <>
-                <Link to="/login" className="nav-link text-dark px-3 py-2 rounded hover-effect">🔐Login</Link>
-                <Link to="/register" className="nav-link text-dark px-3 py-2 rounded hover-effect">🔐Register</Link>
-              </>
-            )}
-
-          <Link to="/cart" className="nav-link text-dark px-3 py-2 rounded hover-effect total">
-            🛒 Total: ${totalPrice.toLocaleString()}
-          </Link>
-            {token && <Nav.Link href="#token" className="nav-link text-success px-3 py-2 rounded token">✅ Token Activo</Nav.Link>}
-          </Nav>
+          <NavLink className={validateRoot} to='/'> 🍕Home </NavLink>
+          {/* Mostrar Profile y Logout si el usuario está logueado */}
+          {user && (<NavLink className={validateRoot} to="/profile">🔓Profile</NavLink>)}
+          {user && (
+            <button className='btn btn-outline-light btn-sm' onClick={handleLogout}>Cerrar Sesión</button>
+          )}
+           {/* Mostrar Login y Register si el usuario no está logueado */}
+          {!user && (
+            <>
+              <NavLink className={validateRoot} to="/login">🔐Login</NavLink>
+              <NavLink className={validateRoot} to="/register">🔐Register</NavLink>
+            </>
+          )}
+          <NavLink className={validateRoot} to="/cart">🛒 Total: ${totalPrice.toLocaleString()}</NavLink>
+        </Nav>
         </Container>
       </Navbar>
     </>
