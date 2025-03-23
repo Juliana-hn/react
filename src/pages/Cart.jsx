@@ -1,5 +1,6 @@
 import React, { useContext } from "react"
 import { CartContext } from "../context/CartContext"
+import { UserContext } from "../context/UserContext";
 import { pizzaCart } from "../components/pizzas";
 
 {/*Hito anterior, otra forma de añadir/eliminar pizzas desde el cart:
@@ -23,7 +24,8 @@ const Total = () => {
 }*/}
 
 const Cart = () => {
-        const { cart, increment, decrement, totalPrice } = useContext(CartContext);
+    const { cart, increment, decrement, totalPrice } = useContext(CartContext);
+    const { token } = useContext(UserContext);
 
 return(
     <div className="cartcontainer mt-5">
@@ -64,7 +66,7 @@ return(
 ))}
  <div className="text-end mt-4">
  <h3>Total: ${totalPrice.toLocaleString()} </h3>
- <button className="btn btn-outline-success mb-5">Pagar</button>
+ <button className="btn btn-outline-success mb-5" disabled={!token} >Pagar</button>
  </div>
  </div>
 )

@@ -1,8 +1,19 @@
 import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
+import { useContext } from 'react';
+import { useNavigate } from "react-router-dom";
+import { UserContext } from "../context/UserContext";
 
 const Profile = () => {
+  const { logout } = useContext(UserContext); // Accede a la función logout
+  const navigate = useNavigate(); // Para redirigir al Home
+  const handleLogout = (event) => {
+    event.preventDefault(); 
+    logout(); 
+    navigate("/"); 
+  };
+
   return (
     <Form>
       <Form.Group as={Row} className="m-5" controlId="formPlaintextEmail">
@@ -10,7 +21,7 @@ const Profile = () => {
           Email: 
         </Form.Label>
         <Col sm="10">
-          <Form.Control plaintext readOnly defaultValue="email@example.com" />
+          <Form.Control plaintext readOnly defaultValue="test@test.com" />
         </Col>
       </Form.Group>
 
@@ -23,8 +34,8 @@ const Profile = () => {
         </Col>
       </Form.Group>
 
-      <button className="btn btn-primary m-5" type='submit'>
-                    Cerrar Sesión
+      <button className="btn btn-primary m-5" onClick={handleLogout}>
+                    Logout
                 </button>
     </Form>
   );

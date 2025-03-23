@@ -18,12 +18,8 @@ const App = () => {
             <Route path="/register" element={<Register />} />
             <Route path="/login" element={<Login />} />
             <Route path="/cart" element={ <Cart /> } />            
-            <Route path="/pizza/:id" 
-                   element={<Pizza />}/>
-            <Route path="/profile" 
-                   element={<ProtectedRoute> 
-                    <Profile/> 
-                    </ProtectedRoute>} />
+            <Route path="/pizza/:id" element={<Pizza />}/>
+            <Route path="/profile" element={<ProtectedRoute> <Profile/> </ProtectedRoute>} />
             <Route path="*" element={<NotFound />} />
           </Routes>
           <Footer />

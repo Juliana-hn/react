@@ -12,13 +12,9 @@ function ColorSchemesExample() {
   );
   
   // HITO 7 RUTAS
-  const { user, logout } = useContext(UserContext) 
+  const { token, logout } = useContext(UserContext) 
   const navigate = useNavigate();
-  const cerrarsesion = () => {
-    logout() ;
-    navigate ("/")
-  } 
-  const validateRoot = ({isActive}) => (isActive ? 'active nav-link':'nav-link')
+  const validateRoot = ({isActive}) => (isActive ? 'nav-item nav-link active':'nav-item nav-link')
 
   return (
     <>
@@ -26,18 +22,28 @@ function ColorSchemesExample() {
         <Container>
           <Nav className="me-auto">
           <NavLink className={validateRoot} to='/'> 🍕Home </NavLink>
-          {/* Mostrar Profile y Logout si el usuario está logueado */}
-          {user && (<NavLink className={validateRoot} to="/profile">🔓Profile</NavLink>)}
-          {user && (
-            <button className='btn btn-outline-light btn-sm' onClick={handleLogout}>Cerrar Sesión</button>
-          )}
-           {/* Mostrar Login y Register si el usuario no está logueado */}
-          {!user && (
+       
+          {/* Si el usuario está autenticado */}
+          {token ? (
             <>
-              <NavLink className={validateRoot} to="/login">🔐Login</NavLink>
-              <NavLink className={validateRoot} to="/register">🔐Register</NavLink>
+              <NavLink className={validateRoot} to="/profile">
+                🔓 Profile
+              </NavLink>
+              <button className="btn btn-outline-light btn-sm" onClick={logout}>
+                🔐Logout
+              </button>
+            </>
+          ) : (
+            <>
+              <NavLink className={validateRoot} to="/login">
+                🔐 Login
+              </NavLink>
+              <NavLink className={validateRoot} to="/register">
+                🔐 Register
+              </NavLink>
             </>
           )}
+
           <NavLink className={validateRoot} to="/cart">🛒 Total: ${totalPrice.toLocaleString()}</NavLink>
         </Nav>
         </Container>
